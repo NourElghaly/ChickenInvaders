@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>spaceship.jpg</file>
+        <file>chicken.jpg</file>
+        <file>missle.png</file>
+        <file>bakcground.jpg</file>
+    </qresource>
+    <qresource prefix="/res"/>
+</RCC>
