@@ -5,16 +5,20 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
 #include <QKeyEvent>
+#include <QMediaPlayer>
+
 
 class Player : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 public:
-    Player(QGraphicsTextItem *score = nullptr);
-    void keyPressEvent(QKeyEvent *event) override;
-    void createEnemy();
+    Player();
+    void keyPressEvent(QKeyEvent *event);
+    QMediaPlayer *bulletaudio=new QMediaPlayer();
 private:
-    int scoreValue;
-    QGraphicsTextItem *score;
+    QTimer*time;
+
+public slots:
+    void create_enemy();
 };
 
 #endif // PLAYER_H

@@ -1,4 +1,5 @@
 QT       += core gui
+QT       +=multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,6 +12,7 @@ CONFIG += c++17
 SOURCES += \
     bullet.cpp \
     enemy.cpp \
+    health.cpp \
     main.cpp \
     player.cpp \
     score.cpp
@@ -18,6 +20,7 @@ SOURCES += \
 HEADERS += \
     bullet.h \
     enemy.h \
+    health.h \
     player.h \
     score.h
 
