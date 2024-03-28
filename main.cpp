@@ -6,7 +6,6 @@
 #include <player.h>
 #include <score.h>
 #include <QTimer>
-#include "health.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,33 +14,20 @@ int main(int argc, char *argv[])
     QGraphicsScene scene;
     scene.setSceneRect(0, 0, 800, 600);
 
-    QGraphicsView view;
+    QGraphicsView view(&scene); // Pass scene to view
     view.setFixedSize(800, 600);
 
-
-    QPixmap background(":/images/bakcground.jpg");
-    scene.setBackgroundBrush(background.scaled(scene.width(),scene.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-
-    QPixmap playericon(":/images/spaceship.png");
-    playericon = playericon.scaledToWidth(100);
-    playericon = playericon.scaledToHeight(100);
-    // Setting up player
-    Player*player= new Player;
-    player->setPixmap(playericon);
+    // Set up player
+    Player *player = new Player(&scene); // Pass scene to player constructor
+    player->setPixmap(QPixmap(":/images/spaceship.png").scaled(100, 100));
     player->setFlag(QGraphicsItem::ItemIsFocusable);
-
-
-
-
-
-
     player->setFocus();
-    player->setPos(view.width()/2,view.height()-playericon.height());
+    player->setPos(view.width() / 2, view.height() - player->pixmap().height());
     scene.addItem(player);
 
+    QPixmap background(":/images/bakcground.jpg");
+    scene.setBackgroundBrush(background.scaled(scene.width(), scene.height()));
 
-
-    view.setScene(&scene);
     view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.show();

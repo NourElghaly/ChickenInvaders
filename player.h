@@ -3,21 +3,28 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
-#include <QGraphicsTextItem>
-#include <QKeyEvent>
-#include <QMediaPlayer>
+#include <QGraphicsTextItem> // Include for QGraphicsTextItem
+#include <QTimer>
 
-
-class Player : public QObject, public QGraphicsPixmapItem {
+class Player : public QObject, public QGraphicsPixmapItem
+{
     Q_OBJECT
 public:
-    Player();
-    void keyPressEvent(QKeyEvent *event);
-    QMediaPlayer *bulletaudio=new QMediaPlayer();
-private:
-    QTimer*time;
+    Player(QObject *parent = nullptr);
 
-public slots:
+    void keyPressEvent(QKeyEvent *event) override;
+    void up_score();
+    void down_health();
+    int get_health();
+
+private:
+    int player_health;
+    int player_score;
+    QGraphicsTextItem *health_text; // Text item for health
+    QGraphicsTextItem *score_text;  // Text item for score
+    QTimer *time;
+
+private slots:
     void create_enemy();
 };
 
