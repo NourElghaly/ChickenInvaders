@@ -1,41 +1,38 @@
 #include "health.h"
-#include <QFont>
-#include "score.h"
+#include "QtWidgets/qgraphicsscene.h"
+#include <QGraphicsTextItem>
+#include <QGraphicsItem>
 #include <QMessageBox>
+#include "points.h"
 
-health::health() : QObject(), player_health(3)
+int health::player_health = 3;
+QGraphicsTextItem *health::player_healthtext = new QGraphicsTextItem;
+
+health::health(QGraphicsScene *scene)
 {
-    health_text = new QGraphicsTextItem;
-    health_text->setFont(QFont("times", 16));
-    health_text->setDefaultTextColor(Qt::red);
-    health_text->setPlainText("Health: " + QString::number(player_health));
-    health_text->setPos(600, 50);
-
-}
-
-health::health(QGraphicsScene scene)
-{
-    scene.addItem(health_text);
+    // Displaying health on screen
+    player_healthtext->setPlainText(QString("HEALTH " + QString::number(player_health)));
+    player_healthtext->setDefaultTextColor(Qt::green);
+    player_healthtext->setFont(QFont("Arial", 20));
+    player_healthtext->setPos(10, 10);
+    scene->addItem(player_healthtext);
 }
 
 void health::decrease()
 {
+    // Decreases health
     player_health--;
-    health_text->setPlainText("HEALTH: " + QString::number(player_health));
-    health_text->setDefaultTextColor(Qt::red);
+    points::decrease();
+    player_healthtext->setPlainText(QString("HEALTH: " + QString::number(player_health)));
+    player_healthtext->setDefaultTextColor(Qt::red);
 
     if (player_health == 0)
     {
-        int scr = 0;
-        Score score; // Create an instance of the Score class
-        score.set_score(scr); // Call set_score function on the Score instance
+        int sc = points::getPoints();
         QMessageBox *box = new QMessageBox;
         box->setWindowTitle(QString("GAME OVER"));
-        box->setText(QString("YOU LOSE... YOUR SCORE WAS: ") + QString::number(scr));
-        box->setFixedHeight(800);
-        box->setFixedWidth(800);
+        box->setText(QString("YOU HAVE FAILED TO SAVE THE GALAXY. YOUR SCORE: ") + QString::number(sc));
         box->exec();
-        delete box; // Delete the message box after execution
         exit(0);
     }
 }

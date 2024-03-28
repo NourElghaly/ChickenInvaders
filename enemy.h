@@ -1,16 +1,18 @@
-// enemy.h
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
+#include <QObject>
+#include <QMediaPlayer>
 
-
-class Enemy : public QObject, public QGraphicsPixmapItem
+class enemy : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Enemy();
+    enemy();
+    QMediaPlayer *lose = new QMediaPlayer();
+
 public slots:
     void move();
 };

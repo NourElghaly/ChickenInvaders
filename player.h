@@ -1,31 +1,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <QObject>
+#include <QMediaPlayer>
 #include <QGraphicsPixmapItem>
-#include <QGraphicsTextItem> // Include for QGraphicsTextItem
-#include <QTimer>
+#include <QGraphicsItem>
+#include <QObject>
+#include <QAudioOutput>
 
-class Player : public QObject, public QGraphicsPixmapItem
+class player : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Player(QObject *parent = nullptr);
+    player();
+    void keyPressEvent(QKeyEvent *event);
+    QMediaPlayer *bullet_sound = new QMediaPlayer();
 
-    void keyPressEvent(QKeyEvent *event) override;
-    void up_score();
-    void down_health();
-    int get_health();
-
-private:
-    int player_health;
-    int player_score;
-    QGraphicsTextItem *health_text; // Text item for health
-    QGraphicsTextItem *score_text;  // Text item for score
-    QTimer *time;
-
-private slots:
-    void create_enemy();
+public slots:
+    void spawn();
 };
 
 #endif // PLAYER_H

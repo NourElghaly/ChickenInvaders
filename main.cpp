@@ -1,36 +1,59 @@
-#include <QApplication>
+#include <QGraphicsview>
 #include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsTextItem>
-#include <player.h>
-#include <score.h>
+#include <QGraphicsRectItem>
+#include <QApplication>
+#include "health.h"
+#include "player.h"
+#include "points.h"
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+    // Declaring view
+    QGraphicsView view;
+    view.setFixedSize(800, 800);
+    // Declaring scene
     QGraphicsScene scene;
-    scene.setSceneRect(0, 0, 800, 600);
-
-    QGraphicsView view(&scene); // Pass scene to view
-    view.setFixedSize(800, 600);
-
-    // Set up player
-    Player *player = new Player(&scene); // Pass scene to player constructor
-    player->setPixmap(QPixmap(":/images/spaceship.png").scaled(100, 100));
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setFocus();
-    player->setPos(view.width() / 2, view.height() - player->pixmap().height());
-    scene.addItem(player);
-
-    QPixmap background(":/images/bakcground.jpg");
-    scene.setBackgroundBrush(background.scaled(scene.width(), scene.height()));
-
+    scene.setSceneRect(0, 0, 800, 800);
+    // Turning off scroll bar
     view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // Adding background
+    QPixmap bgImage(":images/background.jpeg");
+    scene.setBackgroundBrush(bgImage.scaled(scene.width(), scene.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    // Background music
+    QAudioOutput *maintheme = new QAudioOutput();
+    QMediaPlayer *mainplayer = new QMediaPlayer();
+    maintheme->setVolume(70);
+    mainplayer->setAudioOutput(maintheme);
+    mainplayer->setSource(QUrl("qrc:/audios/background_music.mp3"));
+    if (mainplayer->isPlaying())
+    {
+        mainplayer->setPosition(0);
+    }
+    else if (mainplayer->isPlaying() == QMediaPlayer::StoppedState)
+    {
+        mainplayer->play();
+    }
+    // Making player move
+    player *player = new player;
+    player->setPos(view.width() / 2, view.height() - 100);
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    // Points
+    points *points = new points(&scene);
+    // Health
+    health *health = new class health(&scene);
+    // Enemy spawning
+    QTimer *time = new QTimer();
+    QObject::connect(time, SIGNAL(timeout()), player, SLOT(spawn()));
+    time->start(1500);
+    // The add part
+    player->setFocus();
+    scene.addItem(player);
+    view.setScene(&scene);
     view.show();
-
     return a.exec();
 }

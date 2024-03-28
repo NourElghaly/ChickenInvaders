@@ -1,47 +1,67 @@
 #include "enemy.h"
-#include <stdlib.h>
-#include <QTimer>
-#include <QList>
-#include <QGraphicsScene>
 #include "player.h"
+#include "stdlib.h"
+#include <QtWidgets/qgraphicsscene.h>
+#include <QTimer>
+#include "health.h"
 
-Enemy::Enemy() : QObject(), QGraphicsPixmapItem() {
-    setPixmap(QPixmap(":/images/chicken.png").scaled(100, 100));
-
-    int random_number = rand() % 700;
-    setPos(random_number, 0);
-
-    QTimer *timer = new QTimer(this); // Set parent to manage memory
+enemy::enemy() : QObject(), QGraphicsPixmapItem()
+{
+    // Random position
+    int random = rand() % 700;
+    setPos(random, 0);
+    // Timer
+    QTimer *timer = new QTimer();
+    // Image
+    setPixmap(QPixmap(":images/enemy.png").scaled(70, 70));
+    // Losing score sound
+    QAudioOutput *mainlosing;
+    mainlosing = new QAudioOutput();
+    mainlosing->setVolume(10);
+    lose->setAudioOutput(mainlosing);
+    lose->setSource(QUrl("qrc:/audios/mixkit-losing-bleeps-2026.mp3"));
+    // Connect
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
 }
 
-void Enemy::move()
+void enemy::move()
 {
-    // Removing health when hitting enemy
+    // Movement
+    setPos(x(), y() + 7);
+    // Removing health and score when hitting enemy
     QList<QGraphicsItem *> collide = collidingItems();
-    for (int i = 0; i < collide.size(); i++) {
-        if (typeid(*(collide[i])) == typeid(Player)) {
-            // Remove both the enemy and the player
-            Player *player = dynamic_cast<Player*>(collide[i]);
-            if (player) {
-                player->down_health(); // Call the decrease function of the player
-                if (player->get_health()<= 0) { // Check if player's health is 0 or less
-                    scene()->removeItem(collide[i]); // Remove the player from the scene
-                    delete collide[i];
-                }
-
-                delete this;
-                return;
+    for (int i = 0, n = collide.size(); i < n; ++i)
+    {
+        if (typeid(*(collide[i])) == typeid(player))
+        {
+            if (lose->isPlaying())
+            {
+                lose->setPosition(0);
             }
+            else if (lose->isPlaying() == QMediaPlayer::StoppedState)
+            {
+                lose->play();
+            }
+            health::decrease();
+            scene()->removeItem(this);
+            delete this;
+            return;
         }
     }
-
-    // Movement
-    setPos(x(), y() + 10);
-    if(y() + pixmap().height() > 600)
+    // Handling out of bounds
+    if (pos().y() + 20 > 800)
     {
-        scene()->removeItem(this); // Remove enemy from the scene
-        delete this; // Delete enemy object
+        if (lose->isPlaying())
+        {
+            lose->setPosition(0);
+        }
+        else if (lose->isPlaying() == QMediaPlayer::StoppedState)
+        {
+            lose->play();
+        }
+        health::decrease();
+        scene()->removeItem(this);
+        delete this;
     }
 }

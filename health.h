@@ -1,22 +1,19 @@
 #ifndef HEALTH_H
 #define HEALTH_H
 
-#include <QGraphicsScene>
 #include <QGraphicsTextItem>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
 
-class health: public QObject
-
+class health
 {
-    Q_OBJECT
-
 public:
-    health();
-    health(QGraphicsScene scene); // Modified constructor to take a pointer to QGraphicsScene
-    void decrease(); // Removed static keyword from member function
+    health(QGraphicsScene *scene);
+    static void decrease();
 
 private:
-    int player_health; // Removed static keyword from member variable
-    QGraphicsTextItem* health_text; // Removed static keyword from member variable
+    static int player_health;
+    static QGraphicsTextItem *player_healthtext;
 };
 
 #endif // HEALTH_H

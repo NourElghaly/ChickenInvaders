@@ -1,46 +1,56 @@
 #include "bullet.h"
-#include "enemy.h"
+#include <QGraphicsScene>
 #include <QTimer>
 #include <QList>
-#include <QGraphicsScene>
-#include "player.h"
+#include "enemy.h"
+#include "points.h"
 
-Bullet::Bullet() {
-    setPixmap(QPixmap(":/images/missle.png").scaled(30, 60));
+bullet::bullet()
+{
+    // Enemy sound
+    QAudioOutput *soundEnemy;
+    soundEnemy = new QAudioOutput();
+    soundEnemy->setVolume(200);
+    enemy_sound->setAudioOutput(soundEnemy);
+    enemy_sound->setSource(QUrl("qrc:/audios/enemy_sound.mp3"));
+    // Image
+    setPixmap(QPixmap(":images/red_bullet.png").scaled(30, 60));
     // Timer
-    QTimer *timer = new QTimer(this); // Set parent to manage memory
+    QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
 }
 
-void Bullet::move()
+void bullet::move()
 {
     // Colliding condition
     QList<QGraphicsItem *> collide = collidingItems();
-    for(int i = 0, n = collide.size(); i < n; ++i)
+    for (int i = 0, n = collide.size(); i < n; ++i)
     {
-        if(typeid(*(collide[i])) == typeid(Enemy))
+        if (typeid(*(collide[i])) == typeid(enemy))
         {
-            Enemy *enemy = dynamic_cast<Enemy *>(collide[i]);
-            if (enemy)
+            if (enemy_sound->isPlaying())
             {
-                Player *player = scene()->findChild<Player *>(); // Find player in scene
-                if (player)
-                    player->up_score();
+                enemy_sound->setPosition(0);
             }
-            scene()->removeItem(collide[i]); // Remove enemy from the scene
-            scene()->removeItem(this); // Remove bullet from the scene
-            delete collide[i]; // Delete enemy object
-            delete this; // Delete bullet object
+            else if (enemy_sound->isPlaying() == QMediaPlayer::StoppedState)
+            {
+                enemy_sound->play();
+            }
+            points::increase();
+            scene()->removeItem(collide[i]);
+            scene()->removeItem(this);
+            delete collide[i];
+            delete this;
             return;
         }
     }
-
+    // Movement
     setPos(x(), y() - 10);
 
-    if(pos().y() + pixmap().height() < 0)
+    if (pos().y() + 30 < 0)
     {
-        scene()->removeItem(this); // Remove bullet from the scene
-        delete this; // Delete bullet object
+        scene()->removeItem(this);
+        delete this;
     }
 }
