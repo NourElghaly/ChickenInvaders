@@ -5,9 +5,10 @@
 #include <QGraphicsScene>
 #include "player.h"
 #include "enemy.h"
+#include "health.h"
 
 Enemy::Enemy() : QObject(), QGraphicsPixmapItem() {
-   setPixmap(QPixmap(":/images/chicken.jpg").scaled(100,100));
+   setPixmap(QPixmap(":/images/chicken.png").scaled(100,100));
 
     int random_number = rand() % 700;
     setPos(random_number, 0);
@@ -21,23 +22,14 @@ Enemy::Enemy() : QObject(), QGraphicsPixmapItem() {
 void Enemy::move()
 {
 
-
-
-    //removing health and score when hitting enemy
+    //removing health when hitting enemy
     QList<QGraphicsItem *> collide=collidingItems();
     for(int i=0, n=collide.size();i<n;++i)
     {
         if(typeid(*(collide[i]))==typeid(Player))
         {
-            //if(lose->isPlaying())
-            {
-               // lose->setPosition(0);
-            }
-            //else if(lose->isPlaying()==QMediaPlayer::StoppedState)
-            {
-              //  lose->play();
-            }
-           // health::decrease();
+            health playerhealth;
+            playerhealth.decrease();
             scene()->removeItem(this);
             delete this;
             return;

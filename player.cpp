@@ -12,30 +12,31 @@ Player::Player()
     time->start(2000);
 }
 
-void Player::keyPressEvent(QKeyEvent *event) // Corrected function name
+void Player::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key()== Qt::Key_Left)
+    // player movement
+    if (event->key() == Qt::Key_Left)
     {
-        if(x()>0)
-        {
-            setPos(x()-40,y());
-        }
+        if (pos().x() > 9)
+            setPos(x() - 30, y());
     }
-    else if(event->key()== Qt::Key_Right)
+    else if (event->key() == Qt::Key_Right)
     {
-        if(x()+100<800)
-            setPos(x()+40,y());
+        if (pos().x() + 70 < 800)
+            setPos(x() + 30, y());
     }
-    else if(event->key()== Qt::Key_Up)
+    else if (event->key() == Qt::Key_Up)
     {
-        if(y()>0)
-            setPos(x(),y()-40);
+        if (pos().y() != 0)
+            setPos(x(), y() - 20);
     }
-    else if(event->key()== Qt::Key_Down)
+    else if (event->key() == Qt::Key_Down)
     {
-        if(y()+100<800)
-            setPos(x(),y()+40);
+        // Ensure player doesn't go below the screen
+        if (pos().y() + 20 < 600) // Check against the height of the view
+            setPos(x(), y() + 20);
     }
+
     else if(event->key()== Qt::Key_Space)
     {
         Bullet * bullet = new Bullet();

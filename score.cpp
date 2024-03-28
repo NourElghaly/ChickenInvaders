@@ -1,40 +1,31 @@
 #include "score.h"
-#include "QtGui/qfont.h"
-#include "QtWidgets/qgraphicsscene.h"
-#include <QGraphicsTextItem>
-#include<QGraphicsItem>
-int score::player_score=0;
-QGraphicsTextItem *score::player_scoretext=new QGraphicsTextItem;
-score::score(QGraphicsScene * scene)
+#include <QFont>
+
+int Score::player_score = 0;
+
+Score::Score() : QObject()
 {
-    //allocating the score onto the scene
-    player_scoretext->setPlainText(QString("SCORE " + QString::number(player_score)));
-    player_scoretext->setDefaultTextColor(QColorConstants::Svg::blue);
-    player_scoretext->setFont(QFont("script", 30));
-    player_scoretext->setPos(5,50);
-    scene->addItem(player_scoretext);
+    scoreText = new QGraphicsTextItem;
+    scoreText->setFont(QFont("times", 16));
+    scoreText->setDefaultTextColor(Qt::blue);
+    scoreText->setPlainText("Score: " + QString::number(player_score));
+    scoreText->setPos(600, 10);
+
 }
 
-void score::increase()
+Score::Score(QGraphicsScene scene)
 {
-    player_score=player_score+100;
-    player_scoretext->setPlainText(QString("SCORE: " + QString::number(player_score)));
-    player_scoretext->setDefaultTextColor(QColorConstants::Svg::blue);
-    if(player_score<0)
-    {
-        player_scoretext->setDefaultTextColor(Qt::red);
-    }
+    scene.addItem(scoreText);
 }
 
-void score::deacrease()
+void Score::increase()
 {
-    //decreasing score
-    player_score=player_score-100;
-    player_scoretext->setPlainText(QString("SCORE: " + QString::number(player_score)));
-    player_scoretext->setDefaultTextColor(Qt::red);
+    player_score += 10;
+    scoreText->setPlainText("Score: " + QString::number(player_score));
 }
 
-void score::set_score(int &num)
+void Score::set_score(int& num)
 {
-    num=player_score;
+    player_score = num;
 }
+

@@ -19,12 +19,13 @@ Bullet::Bullet() {
 void Bullet::move()
 {
     //colliding condition
-    QList<QGraphicsItem *> collide=collidingItems();
-    for(int i=0, n=collide.size();i<n;++i)
+    QList<QGraphicsItem *> collide = collidingItems();
+    for(int i = 0, n = collide.size(); i < n; ++i)
     {
-        if(typeid(*(collide[i]))==typeid(Enemy))
+        if(typeid(*(collide[i])) == typeid(Enemy))
         {
-            score::increase();
+            Score score; // Create an instance of Score class
+            score.increase(); // Call the increase() function on the instance
             scene()->removeItem(collide[i]);
             scene()->removeItem(this);
             delete collide[i];
@@ -33,14 +34,14 @@ void Bullet::move()
         }
     }
 
-    setPos(x(),y()-10);
+    setPos(x(), y() - 10);
 
-    if(pos().y()+30<0)
+    if(pos().y() + 30 < 0)
     {
         scene()->removeItem(this);
         delete this;
     }
-
 }
+
 
 

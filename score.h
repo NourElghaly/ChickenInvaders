@@ -1,17 +1,25 @@
 #ifndef SCORE_H
 #define SCORE_H
+
+#include <QGraphicsScene>
 #include <QGraphicsTextItem>
-#include<QGraphicsItem>
-class score
+#include <QObject>
+
+class Score : public QObject
 {
+    Q_OBJECT
+
 public:
-    score(QGraphicsScene * scene);
-    static void increase();
-    static void deacrease();
-    static void set_score(int &num);
-private:
+    Score(QGraphicsScene scene);
+    Score();
+
+    void increase();
+    void set_score(int& num);
+
     static int player_score;
-    static QGraphicsTextItem * player_scoretext;
+
+private:
+    QGraphicsTextItem* scoreText;
 };
 
 #endif // SCORE_H
