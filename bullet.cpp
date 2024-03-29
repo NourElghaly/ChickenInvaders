@@ -14,7 +14,7 @@ bullet::bullet()
     enemy_sound->setAudioOutput(soundEnemy);
     enemy_sound->setSource(QUrl("qrc:/audios/enemy_sound.mp3"));
     // Image
-    setPixmap(QPixmap(":images/red_bullet.png").scaled(30, 60));
+    setPixmap(QPixmap(":/images/missle.png").scaled(30, 60));
     // Timer
     QTimer *timer = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -37,7 +37,7 @@ void bullet::move()
             {
                 enemy_sound->play();
             }
-            points::increase();
+            Points::increase();
             scene()->removeItem(collide[i]);
             scene()->removeItem(this);
             delete collide[i];

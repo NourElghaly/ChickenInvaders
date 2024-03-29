@@ -13,7 +13,7 @@ player::player()
     bullet_sound->setAudioOutput(mainBullet);
     bullet_sound->setSource(QUrl("qrc:/audios/bullet_sound.mp3"));
     // Setting image
-    setPixmap(QPixmap(":images/spaceship.png"));
+    setPixmap(QPixmap(":/images/spaceship.png").scaled(100,100));
 }
 
 void player::keyPressEvent(QKeyEvent *event)

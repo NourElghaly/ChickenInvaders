@@ -1,7 +1,6 @@
 #include "enemy.h"
 #include "player.h"
 #include "stdlib.h"
-#include <QtWidgets/qgraphicsscene.h>
 #include <QTimer>
 #include "health.h"
 
@@ -13,7 +12,7 @@ enemy::enemy() : QObject(), QGraphicsPixmapItem()
     // Timer
     QTimer *timer = new QTimer();
     // Image
-    setPixmap(QPixmap(":images/enemy.png").scaled(70, 70));
+    setPixmap(QPixmap(":/images/chicken.png").scaled(100, 100));
     // Losing score sound
     QAudioOutput *mainlosing;
     mainlosing = new QAudioOutput();

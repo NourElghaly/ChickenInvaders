@@ -8,9 +8,10 @@ class Points
 {
 public:
     Points(QGraphicsScene *scene);
+    Points();
     static void increase();
-    static void decrease();
     static void setPoints(int &num);
+    int getPoints();
 
 private:
     static int playerPoints;

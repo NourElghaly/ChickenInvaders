@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // Adding background
-    QPixmap bgImage(":images/background.jpeg");
+    QPixmap bgImage(":/images/bakcground.jpg");
     scene.setBackgroundBrush(bgImage.scaled(scene.width(), scene.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     // Background music
     QAudioOutput *maintheme = new QAudioOutput();
@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
         mainplayer->play();
     }
     // Making player move
-    player *player = new player;
+    player *player = new class player;
     player->setPos(view.width() / 2, view.height() - 100);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     // Points
-    points *points = new points(&scene);
+    Points *points = new Points(&scene);
     // Health
     health *health = new class health(&scene);
     // Enemy spawning

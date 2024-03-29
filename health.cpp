@@ -12,26 +12,27 @@ health::health(QGraphicsScene *scene)
 {
     // Displaying health on screen
     player_healthtext->setPlainText(QString("HEALTH " + QString::number(player_health)));
-    player_healthtext->setDefaultTextColor(Qt::green);
-    player_healthtext->setFont(QFont("Arial", 20));
-    player_healthtext->setPos(10, 10);
+    player_healthtext->setDefaultTextColor(Qt::red);
+    player_healthtext->setFont(QFont("times", 30));
+    player_healthtext->setPos(30, 10);
     scene->addItem(player_healthtext);
 }
 
 void health::decrease()
 {
+    Points points;
     // Decreases health
     player_health--;
-    points::decrease();
+    Points::decrease();
     player_healthtext->setPlainText(QString("HEALTH: " + QString::number(player_health)));
     player_healthtext->setDefaultTextColor(Qt::red);
 
     if (player_health == 0)
     {
-        int sc = points::getPoints();
+        int sc = points.getPoints();
         QMessageBox *box = new QMessageBox;
         box->setWindowTitle(QString("GAME OVER"));
-        box->setText(QString("YOU HAVE FAILED TO SAVE THE GALAXY. YOUR SCORE: ") + QString::number(sc));
+        box->setText(QString("YOU LOOOOOSE...YOU SCORE WAS: ") + QString::number(sc));
         box->exec();
         exit(0);
     }
