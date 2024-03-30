@@ -16,7 +16,7 @@ public:
     QMediaPlayer *bullet_sound = new QMediaPlayer();
 
 public slots:
-    void spawn();
+    void generate();
 };
 
 #endif // PLAYER_H

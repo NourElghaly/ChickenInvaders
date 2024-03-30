@@ -23,6 +23,8 @@ bullet::bullet()
 
 void bullet::move()
 {
+
+
     // Colliding condition
     QList<QGraphicsItem *> collide = collidingItems();
     for (int i = 0, n = collide.size(); i < n; ++i)

@@ -7,10 +7,10 @@
 player::player()
 {
     // Bullet sounds
-    QAudioOutput *mainBullet;
-    mainBullet = new QAudioOutput();
-    mainBullet->setVolume(20);
-    bullet_sound->setAudioOutput(mainBullet);
+    QAudioOutput *Bullet_audio;
+    Bullet_audio = new QAudioOutput();
+    Bullet_audio->setVolume(20);
+    bullet_sound->setAudioOutput(Bullet_audio );
     bullet_sound->setSource(QUrl("qrc:/audios/bullet_sound.mp3"));
     // Setting image
     setPixmap(QPixmap(":/images/spaceship.png").scaled(100,100));
@@ -41,9 +41,9 @@ void player::keyPressEvent(QKeyEvent *event)
     }
     else if(event->key() == Qt::Key_Space)
     {
-        // Bullet spawn
+        // Bullet appearing
         bullet *bullet = new class bullet();
-        bullet->setPos(x(), y());
+        bullet->setPos(x() + pixmap().width()/2 - bullet->pixmap().width()/2, y());
         scene()->addItem(bullet);
         if(bullet_sound->isPlaying())
         {
@@ -56,8 +56,9 @@ void player::keyPressEvent(QKeyEvent *event)
     }
 }
 
+
 // Enemy creation
-void player::spawn()
+void player::generate()
 {
     enemy *enemy = new class enemy();
     scene()->addItem(enemy);

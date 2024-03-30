@@ -10,28 +10,24 @@ Points::Points(QGraphicsScene *scene)
     // Setting up points display
 
     scene->addItem(playerPointsText);
+    Points();
 }
 
 Points::Points()
 
 {
-    playerPointsText->setPlainText(QString("POINTS " + QString::number(playerPoints)));
+    playerPointsText->setPlainText(QString("POINTS: " + QString::number(playerPoints)));
+    playerPointsText->setFont(QFont("times", 20 ));
     playerPointsText->setDefaultTextColor(Qt::blue);
-    playerPointsText->setFont(QFont("times", 30));
-    playerPointsText->setPos(10, 10);
+    playerPointsText->setPos(600, 50);
 }
 void Points::increase()
 {
     // Increasing points
     playerPoints += 100;
     playerPointsText->setPlainText(QString("POINTS: " + QString::number(playerPoints)));
-    playerPointsText->setDefaultTextColor(Qt::blue);
-    if (playerPoints < 0)
-    {
-        playerPointsText->setDefaultTextColor(Qt::blue);
-    }
-}
 
+}
 
 
 void Points::setPoints(int &num)

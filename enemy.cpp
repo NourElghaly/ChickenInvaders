@@ -17,8 +17,8 @@ enemy::enemy() : QObject(), QGraphicsPixmapItem()
     QAudioOutput *mainlosing;
     mainlosing = new QAudioOutput();
     mainlosing->setVolume(10);
-    lose->setAudioOutput(mainlosing);
-    lose->setSource(QUrl("qrc:/audios/mixkit-losing-bleeps-2026.mp3"));
+    //lose->setAudioOutput(mainlosing);
+   // lose->setSource(QUrl("qrc:/audios/mixkit-losing-bleeps-2026.mp3"));
     // Connect
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
@@ -34,13 +34,13 @@ void enemy::move()
     {
         if (typeid(*(collide[i])) == typeid(player))
         {
-            if (lose->isPlaying())
+          //  if (lose->isPlaying())
             {
-                lose->setPosition(0);
+           //     lose->setPosition(0);
             }
-            else if (lose->isPlaying() == QMediaPlayer::StoppedState)
+           // else if (lose->isPlaying() == QMediaPlayer::StoppedState)
             {
-                lose->play();
+           //     lose->play();
             }
             health::decrease();
             scene()->removeItem(this);
@@ -49,18 +49,19 @@ void enemy::move()
         }
     }
     // Handling out of bounds
-    if (pos().y() + 20 > 800)
+    if (pos().y() + boundingRect().height() > scene()->height() || pos().y() < 0)
     {
-        if (lose->isPlaying())
+       // if (lose->isPlaying())
         {
-            lose->setPosition(0);
+       //     lose->setPosition(0);
         }
-        else if (lose->isPlaying() == QMediaPlayer::StoppedState)
+      //  else if (lose->isPlaying() == QMediaPlayer::StoppedState)
         {
-            lose->play();
+       //     lose->play();
         }
         health::decrease();
         scene()->removeItem(this);
         delete this;
     }
 }
+
