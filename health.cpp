@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QMessageBox>
 #include "points.h"
+#include "qaudiooutput.h"
 
 int health::player_health = 3;
 QGraphicsTextItem *health::player_healthtext = new QGraphicsTextItem;
@@ -20,6 +21,12 @@ health::health(QGraphicsScene *scene)
 
 void health::decrease()
 {
+    QAudioOutput* womp=new QAudioOutput();
+    QMediaPlayer*lose=new QMediaPlayer();
+    lose->setSource(QUrl("qrc:/lose_sound.mp3"));
+    lose->setAudioOutput(womp);
+    womp->setVolume(50);
+
     Points points;
     // Decreases health
     player_health--;
@@ -28,6 +35,7 @@ void health::decrease()
     if (player_health == 0)
     {
         int sc = points.getPoints();
+        lose->play();
         QMessageBox *box = new QMessageBox;
         box->setWindowTitle(QString("GAME OVER"));
         box->setText(QString("YOU LOOOOOSE...YOUR SCORE WAS: ") + QString::number(sc));

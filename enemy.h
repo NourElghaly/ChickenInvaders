@@ -4,14 +4,14 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
 #include <QObject>
-//#include <QMediaPlayer>
+#include <QMediaPlayer>
 
 class enemy : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
     enemy();
-   // QMediaPlayer *lose = new QMediaPlayer();
+
 
 public slots:
     void move();

@@ -13,7 +13,7 @@ class player : public QObject, public QGraphicsPixmapItem
 public:
     player();
     void keyPressEvent(QKeyEvent *event);
-    QMediaPlayer *bullet_sound = new QMediaPlayer();
+
 
 public slots:
     void generate();

@@ -13,12 +13,7 @@ enemy::enemy() : QObject(), QGraphicsPixmapItem()
     QTimer *timer = new QTimer();
     // Image
     setPixmap(QPixmap(":/images/chicken.png").scaled(100, 100));
-    // Losing score sound
-    QAudioOutput *mainlosing;
-    mainlosing = new QAudioOutput();
-    mainlosing->setVolume(10);
-    //lose->setAudioOutput(mainlosing);
-   // lose->setSource(QUrl("qrc:/audios/mixkit-losing-bleeps-2026.mp3"));
+
     // Connect
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
@@ -26,6 +21,14 @@ enemy::enemy() : QObject(), QGraphicsPixmapItem()
 
 void enemy::move()
 {
+     //Setting sound for when chicken collides with bullet
+    QAudioOutput* coocoo=new QAudioOutput();
+    QMediaPlayer*cooeffect=new QMediaPlayer();
+    cooeffect->setSource(QUrl("qrc:/coocoo.mp3"));
+    cooeffect->setAudioOutput(coocoo);
+    coocoo->setVolume(50);
+
+
     // Movement
     setPos(x(), y() + 7);
     // Removing health and score when hitting enemy
@@ -34,15 +37,8 @@ void enemy::move()
     {
         if (typeid(*(collide[i])) == typeid(player))
         {
-          //  if (lose->isPlaying())
-            {
-           //     lose->setPosition(0);
-            }
-           // else if (lose->isPlaying() == QMediaPlayer::StoppedState)
-            {
-           //     lose->play();
-            }
             health::decrease();
+            cooeffect->play();
             scene()->removeItem(this);
             delete this;
             return;
@@ -51,14 +47,6 @@ void enemy::move()
     // Handling out of bounds
     if (pos().y() + boundingRect().height() > scene()->height() || pos().y() < 0)
     {
-       // if (lose->isPlaying())
-        {
-       //     lose->setPosition(0);
-        }
-      //  else if (lose->isPlaying() == QMediaPlayer::StoppedState)
-        {
-       //     lose->play();
-        }
         health::decrease();
         scene()->removeItem(this);
         delete this;

@@ -4,6 +4,7 @@
 #include <QGraphicsTextItem>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QMediaPlayer>
 
 class health
 {

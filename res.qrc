@@ -6,4 +6,11 @@
         <file>spaceship.png</file>
     </qresource>
     <qresource prefix="/res"/>
+    <qresource prefix="/sounds"/>
+    <qresource prefix="/sound"/>
+    <qresource prefix="/">
+        <file>missle_sound.mp3</file>
+        <file>lose_sound.mp3</file>
+        <file>coocoo.mp3</file>
+    </qresource>
 </RCC>

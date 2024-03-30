@@ -5,14 +5,8 @@
 #include "enemy.h"
 #include "points.h"
 
-bullet::bullet()
+Bullet::Bullet()
 {
-    // Enemy sound
-    QAudioOutput *soundEnemy;
-    soundEnemy = new QAudioOutput();
-    soundEnemy->setVolume(200);
-    enemy_sound->setAudioOutput(soundEnemy);
-    enemy_sound->setSource(QUrl("qrc:/audios/enemy_sound.mp3"));
     // Image
     setPixmap(QPixmap(":/images/missle.png").scaled(30, 60));
     // Timer
@@ -21,8 +15,13 @@ bullet::bullet()
     timer->start(50);
 }
 
-void bullet::move()
+void Bullet::move()
 {
+    QAudioOutput* coocoo=new QAudioOutput();
+    QMediaPlayer*cooeffect=new QMediaPlayer();
+    cooeffect->setSource(QUrl("qrc:/coocoo.mp3"));
+    cooeffect->setAudioOutput(coocoo);
+    coocoo->setVolume(20);
 
 
     // Colliding condition
@@ -31,17 +30,10 @@ void bullet::move()
     {
         if (typeid(*(collide[i])) == typeid(enemy))
         {
-            if (enemy_sound->isPlaying())
-            {
-                enemy_sound->setPosition(0);
-            }
-            else if (enemy_sound->isPlaying() == QMediaPlayer::StoppedState)
-            {
-                enemy_sound->play();
-            }
             Points::increase();
             scene()->removeItem(collide[i]);
             scene()->removeItem(this);
+            cooeffect->play();
             delete collide[i];
             delete this;
             return;
